@@ -8,10 +8,17 @@ var getRepoName = function() {
     // extract repo name from query string
     var queryString = document.location.search;
     var repoName = queryString.split("=")[1];
-    // use newly extracted 'repoName' to update element's text content
-    getRepoIssues(repoName);
-    repoNameEl.textContent = repoName;
-}
+
+    // checking for valid repoName value before passing to respective function
+    if(repoName) {
+        // use newly extracted 'repoName' to update element's text content
+        repoNameEl.textContent = repoName;
+        getRepoIssues(repoName);
+    } else {
+        // redirect to homepage
+        document.location.replace("./index.html");
+    }
+};
 
 var displayWarning = function (repo) {
     // add text to warning container
@@ -68,6 +75,7 @@ var displayIssues = function (issues) {
 
 var getRepoIssues = function (repo) {
     var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
+    // make a get request
     fetch(apiUrl).then(function (response) {
         // request was successful
         if (response.ok) {
@@ -80,7 +88,8 @@ var getRepoIssues = function (repo) {
                 }
             });
         } else {
-            alert("There was a problem with your request!");
+            // redirect to homepage
+            document.location.replace("./index.html");
         }
     });
 }
