@@ -16,10 +16,14 @@ var getRepoIssues = function(repo) {
         }
     });
 };
-getRepoIssues("facebook/react");
+getRepoIssues("smkrizan/Horiseon");
 
 var displayIssues = function(issues) {
-    
+    // provide message to user if there are no issues to display
+    if (issues.length === 0) {
+        issueContainerEl.textContent = "This repo has no open issues!";
+        return;
+    }
     for(i=0; i<issues.length; i++) {
         // create link element(s) to take users to the github issue(s)
         var issueEl = document.createElement("a");
